@@ -1,0 +1,33 @@
+name: 🚀 Deploy por FTP
+
+on:
+  push:
+    branches:
+      - main  # Se ejecuta cuando hay cambios en main
+
+jobs:
+  ftp-deploy:
+    name: 📂 Subir archivos al hosting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Descargar el código
+        uses: actions/checkout@v4
+
+      - name: 📤 Subir archivos por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.0.0
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: ./
+          server-dir: /VAO/
+          exclude: |
+            **/.git*
+            **/.github*
+            **/node_modules/*
+            **/*.md
+            **/.env*
+            **/.editorconfig
+
+          dry-run: false
