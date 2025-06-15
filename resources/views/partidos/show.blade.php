@@ -5,19 +5,9 @@
                 Partido: {{ $partido->equipoLocal->nombre }} vs {{ $partido->equipoVisitante->nombre }}
             </h2>
             <div class="flex space-x-2">
-                @if($partido->grupo)
-                    <a href="{{ route('grupos.show', $partido->grupo) }}" class="inline-flex items-center px-4 py-2 bg-gray-300 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-400 focus:bg-gray-400 active:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                        Volver al Grupo
-                    </a>
-                @elseif($partido->categoriaPartido)
-                    <a href="{{ route('categorias.show', $partido->categoriaPartido->categoria) }}" class="inline-flex items-center px-4 py-2 bg-gray-300 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-400 focus:bg-gray-400 active:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                        Volver a la Categoría
-                    </a>
-                @else
-                    <a href="{{ route('partidos.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-300 border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest hover:bg-gray-400 focus:bg-gray-400 active:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                        Volver a Partidos
-                    </a>
-                @endif
+                <a href="{{ url()->previous() }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-300">
+                    ← Volver
+                </a>
             </div>
         </div>
     </x-slot>
