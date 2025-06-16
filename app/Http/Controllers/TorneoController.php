@@ -460,6 +460,40 @@ class TorneoController extends Controller
                 }
             }
 
+            $resultadosEliminatorias = [];
+
+            if (Schema::hasTable('categoria_partido')) {
+                foreach ($torneo->categorias as $categoria) {
+                    $partidos = CategoriaPartido::where('categoria_id', $categoria->id)
+                        ->with('partido.equipoLocal', 'partido.equipoVisitante')
+                        ->get();
+
+                    $partidosPorFase = $partidos->groupBy('fase');
+
+                    $resultadoCategoria = [
+                        'categoria' => $categoria,
+                        'final' => null,
+                        'semifinales' => collect(),
+                        'cuartos' => collect(),
+                    ];
+
+                    if ($partidosPorFase->has('final')) {
+                        $resultadoCategoria['final'] = $partidosPorFase['final']->first()->partido;
+                    }
+
+                    if ($partidosPorFase->has('semifinal')) {
+                        $resultadoCategoria['semifinales'] = $partidosPorFase['semifinal']->pluck('partido');
+                    }
+
+                    if ($partidosPorFase->has('cuartos')) {
+                        $resultadoCategoria['cuartos'] = $partidosPorFase['cuartos']->pluck('partido');
+                    }
+
+                    $resultadosEliminatorias[] = $resultadoCategoria;
+                }
+            }
+
+
             $estadisticas = [
                 'total_equipos' => Equipo::whereHas('grupos', function($query) use ($torneo) {
                     $query->where('torneo_id', $torneo->id);
@@ -481,7 +515,8 @@ class TorneoController extends Controller
                 'torneo',
                 'resumenGrupos',
                 'campeones',
-                'estadisticas'
+                'estadisticas',
+                'resultadosEliminatorias'
             ));
 
         } catch (\Exception $e) {

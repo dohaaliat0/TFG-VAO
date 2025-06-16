@@ -84,19 +84,6 @@
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
-
-                    <div>
-                        <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
-                        <select name="estado" id="estado"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 @error('estado') border-red-500 @enderror" required>
-                            <option value="preparacion" {{ old('estado', $torneo->estado) == 'preparacion' ? 'selected' : '' }}>Preparación</option>
-                            <option value="en_curso" {{ old('estado', $torneo->estado) == 'en_curso' ? 'selected' : '' }}>En curso</option>
-                            <option value="finalizado" {{ old('estado', $torneo->estado) == 'finalizado' ? 'selected' : '' }}>Finalizado</option>
-                        </select>
-                        @error('estado')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
                 </div>
 
                 <div class="mt-6 flex justify-end">

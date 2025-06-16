@@ -23,41 +23,29 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            
+
             <!-- Estadísticas Generales -->
             <div class="bg-gradient-to-r from-blue-500 to-purple-600 overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 text-white">
                     <h3 class="text-2xl font-bold mb-4 text-center">📊 Estadísticas Generales del Torneo</h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="text-center">
-                            <div class="text-3xl font-bold">{{ $estadisticasGenerales['total_equipos'] }}</div>
+                            <div class="text-3xl font-bold">{{ $estadisticas['total_equipos'] }}</div>
                             <div class="text-sm opacity-90">Equipos Participantes</div>
                         </div>
                         <div class="text-center">
-                            <div class="text-3xl font-bold">{{ $estadisticasGenerales['total_partidos'] }}</div>
+                            <div class="text-3xl font-bold">{{ $estadisticas['total_partidos'] }}</div>
                             <div class="text-sm opacity-90">Partidos Totales</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-3xl font-bold">{{ $estadisticasGenerales['total_sets'] }}</div>
-                            <div class="text-sm opacity-90">Sets Jugados</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-3xl font-bold">{{ $estadisticasGenerales['duracion_dias'] }}</div>
-                            <div class="text-sm opacity-90">Días de Duración</div>
                         </div>
                     </div>
                     <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                         <div>
-                            <div class="text-xl font-bold">{{ $estadisticasGenerales['total_grupos'] }}</div>
-                            <div class="text-sm opacity-90">Grupos</div>
+                            <div class="text-xl font-bold">{{ $estadisticas['total_campeones'] }}</div>
+                            <div class="text-sm opacity-90">Total campeones</div>
                         </div>
                         <div>
-                            <div class="text-xl font-bold">{{ $estadisticasGenerales['total_categorias'] }}</div>
+                            <div class="text-xl font-bold">{{ $estadisticas['total_categorias'] }}</div>
                             <div class="text-sm opacity-90">Categorías</div>
-                        </div>
-                        <div>
-                            <div class="text-xl font-bold">{{ $estadisticasGenerales['total_partidos_eliminatorios'] }}</div>
-                            <div class="text-sm opacity-90">Partidos Eliminatorios</div>
                         </div>
                     </div>
                 </div>
@@ -68,7 +56,7 @@
                 <div class="p-6">
                     <h3 class="text-2xl font-bold mb-6 text-center text-gray-800">🏆 Campeones por Categoría</h3>
                     <div class="grid grid-cols-1 md:grid-cols-{{ $torneo->categorias->count() }} gap-6">
-                        @foreach($resultadosEliminatorias as $resultado)
+                        @foreach($campeones as $resultado)
                             <div class="text-center">
                                 <div class="bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-lg p-6 mb-4">
                                     <h4 class="text-xl font-bold text-white mb-2">{{ $resultado['categoria']->nombre }}</h4>
@@ -215,7 +203,7 @@
                 <div class="p-6">
                     <h3 class="text-xl font-bold mb-6 text-center text-gray-800">📋 Clasificaciones Finales por Grupo</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach($clasificacionesGrupos as $clasificacion)
+                        @foreach($resumenGrupos as $clasificacion)
                             <div class="border rounded-lg overflow-hidden">
                                 <div class="bg-gray-100 px-4 py-3 border-b">
                                     <h4 class="font-semibold text-gray-800">{{ $clasificacion['grupo']->nombre }}</h4>
@@ -248,57 +236,35 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6">
                     <h3 class="text-xl font-bold mb-6 text-center text-gray-800">⭐ Estadísticas Destacadas</h3>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                         <!-- Mejores Equipos -->
                         <div class="bg-green-50 rounded-lg p-4">
                             <h4 class="font-semibold text-green-800 mb-3">🏆 Mejores Equipos</h4>
                             <div class="space-y-2 text-sm">
-                                @if($estadisticasEquipos['equipo_mas_puntos'])
+                                @if(isset($estadisticas['equipo_mas_puntos']))
                                     <div>
                                         <span class="font-medium">Más puntos:</span>
-                                        <div class="text-green-700">{{ $estadisticasEquipos['equipo_mas_puntos']->nombre }} ({{ $estadisticasEquipos['equipo_mas_puntos']->puntos }} pts)</div>
+                                        <div class="text-green-700">{{ $estadisticas['equipo_mas_puntos']->nombre }} ({{ $estadisticas['equipo_mas_puntos']->puntos }} pts)</div>
                                     </div>
                                 @endif
-                                @if($estadisticasEquipos['equipo_mejor_diferencia_sets'])
+                                @if(isset($estadisticas['equipo_mejor_diferencia_sets']))
                                     <div>
                                         <span class="font-medium">Mejor diferencia de sets:</span>
-                                        <div class="text-green-700">{{ $estadisticasEquipos['equipo_mejor_diferencia_sets']->nombre }} (+{{ $estadisticasEquipos['equipo_mejor_diferencia_sets']->diferencia_sets }})</div>
+                                        <div class="text-green-700">{{ $estadisticas['equipo_mejor_diferencia_sets']->nombre }} (+{{ $estadisticas['equipo_mejor_diferencia_sets']->diferencia_sets }})</div>
                                     </div>
                                 @endif
-                                @if($estadisticasEquipos['equipo_mas_puntos_juego'])
+                                @if(isset($estadisticas['equipo_mas_puntos_juego']))
                                     <div>
                                         <span class="font-medium">Más puntos de juego:</span>
-                                        <div class="text-green-700">{{ $estadisticasEquipos['equipo_mas_puntos_juego']->nombre }} ({{ $estadisticasEquipos['equipo_mas_puntos_juego']->puntos_favor }})</div>
+                                        <div class="text-green-700">{{ $estadisticas['equipo_mas_puntos_juego']->nombre }} ({{ $estadisticas['equipo_mas_puntos_juego']->puntos_favor }})</div>
                                     </div>
                                 @endif
                             </div>
                         </div>
 
                         <!-- Partidos Destacados -->
-                        <div class="bg-blue-50 rounded-lg p-4">
-                            <h4 class="font-semibold text-blue-800 mb-3">🔥 Partidos Destacados</h4>
-                            <div class="space-y-2 text-sm">
-                                @if($partidosDestacados['partido_mas_sets'])
-                                    <div>
-                                        <span class="font-medium">Partido más largo:</span>
-                                        <div class="text-blue-700">
-                                            {{ $partidosDestacados['partido_mas_sets']->equipoLocal->nombre }} vs {{ $partidosDestacados['partido_mas_sets']->equipoVisitante->nombre }}
-                                            <div class="text-xs">({{ $partidosDestacados['partido_mas_sets']->sets_count }} sets)</div>
-                                        </div>
-                                    </div>
-                                @endif
-                                @if($partidosDestacados['partido_mas_puntos'])
-                                    <div>
-                                        <span class="font-medium">Más puntos totales:</span>
-                                        <div class="text-blue-700">
-                                            {{ $partidosDestacados['partido_mas_puntos']->equipoLocal->nombre }} vs {{ $partidosDestacados['partido_mas_puntos']->equipoVisitante->nombre }}
-                                            <div class="text-xs">({{ $partidosDestacados['partido_mas_puntos']->puntos_local + $partidosDestacados['partido_mas_puntos']->puntos_visitante }} puntos)</div>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
+
 
                         <!-- Información del Torneo -->
                         <div class="bg-purple-50 rounded-lg p-4">
@@ -325,8 +291,8 @@
             <!-- Footer del Resumen -->
             <div class="bg-gray-100 rounded-lg p-6 text-center">
                 <p class="text-gray-600">
-                    Resumen generado el {{ now()->format('d/m/Y H:i') }} | 
-                    Torneo: {{ $torneo->nombre }} | 
+                    Resumen generado el {{ now()->format('d/m/Y H:i') }} |
+                    Torneo: {{ $torneo->nombre }} |
                     Estado: {{ ucfirst($torneo->estado) }}
                 </p>
             </div>
@@ -338,11 +304,11 @@
             .no-print {
                 display: none !important;
             }
-            
+
             body {
                 font-size: 12px;
             }
-            
+
             .break-page {
                 page-break-before: always;
             }

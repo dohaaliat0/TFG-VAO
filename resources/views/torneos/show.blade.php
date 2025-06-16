@@ -5,7 +5,7 @@
                 {{ $torneo->nombre }}
             </h2>
             <div class="flex space-x-2">
-                <a href="{{ url()->previous() }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-300">
+                <a href="{{ route('torneos.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-300">
                     ← Volver
                 </a>
                 @if($torneo->estado === 'preparacion')

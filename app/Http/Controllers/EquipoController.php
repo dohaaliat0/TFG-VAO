@@ -32,6 +32,14 @@ class EquipoController extends Controller
             ->where('nombre', $validated['nombre'])
             ->first();
 
+        if (!$validated['telefono_contacto']) $validated['telefono_contacto'] = '';
+
+        if (!$validated['nombre']){
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Debes introducir el nombre');
+        }
+
         if ($equipoExistente) {
             if ($request->ajax()) {
                 return response()->json([
